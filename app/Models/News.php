@@ -13,6 +13,7 @@ class News extends Model
         'slug',
         'user_id',
         'category_id',
+        'is_featured',
     ];
 
     public function user()
