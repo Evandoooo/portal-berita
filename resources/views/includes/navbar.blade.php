@@ -7,7 +7,7 @@
             <a href="index.html">
                 <div class="flex items-center gap-2">
                 <img src="{{ asset('assets/img/Logo.png') }}" alt="Logo" class="w-8 lg:w-10">
-                <p class="text-lg lg:text-xl font-bold">Moco</p>
+                <p class="text-lg lg:text-xl font-bold">BeritaKita</p>
                 </div>
             </a>
             <button class="lg:hidden text-primary text-2xl focus:outline-none" id="menu-toggle">
