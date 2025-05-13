@@ -28,7 +28,7 @@
                     {{ $new->category->name }}
                     </div>
                     <div class="flex gap-3 flex-col lg:flex-row">
-                    <img src="{{ asset('storage/' . $new->image) }}" alt="" class="max-h-36 rounded-xl object-cover">
+                    <img src="{{ asset('storage/' . $new->image) }}" alt="" class="max-h-36 rounded-xl object-cover" style="width: 250px; object-fit: cover;">
                     <div class="">
                         <p class="font-bold text-sm lg:text-base">{{ $new->title }}</p>
                         <p class="text-slate-400 mt-2 text-sm lg:text-xs">{!! \Str::limit($new->content, 60) !!}</p>
