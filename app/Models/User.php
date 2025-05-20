@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->hasMany(News::class);
     }
 
+    public function savedNews()
+    {
+        return $this->belongsToMany(News::class, 'news_user')->withTimestamps();
+    }
+    
     public function comment()
     {
         return $this->hasMany(Comment::class);
@@ -37,6 +42,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reaction::class);
     }
+
 
     /**
      * The attributes that should be hidden for serialization.

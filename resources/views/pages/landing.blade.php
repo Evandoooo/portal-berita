@@ -34,13 +34,11 @@
       <a href="{{ route('news.show', $news[1]->slug) }}" class="lg:col-span-4 border border-slate-200 rounded-xl overflow-hidden p-4 hover:border-primary transition">
         <img src="{{ asset('storage/' . $news[1]->image) }}" class="w-full h-40 object-cover rounded x-1">
         <div class="py-4">
-          <p class="font-bold text-base mb-1">{{ $news[1]->title }}</p>
-          <p class="text-sm text-gray-600 block lg:hidden mb-4">{!! Str::limit($news[1]->content, 80) !!}</p>
-          <div class="text-sm text-gray-500 flex gap-3 mt-auto">
-            <span>{{ $news[1]->created_at->format('d M Y') }}</span>
-            <span>|</span>
-            <span>{{ $news[1]->category->name }}</span>
+          <p class="font-semibold text-base mb-2">{{ $news[1]->title }}</p>
+          <div class="block lg:hidden text-sm text-gray-600">
+            {!! Str::limit($news[1]->content, 80) !!}
           </div>
+          <p class="text-sm text-gray-500">{{ $news[1]->created_at->format('d M Y') }} | {{ $news[1]->category->name }}</p>
         </div>
       </a>
     @endif
@@ -49,10 +47,13 @@
   {{-- SECTION 2: Grid Berita Bawah (4 kolom) --}}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
     @foreach ($news->skip(2)->take(4) as $item)
-      <a href="{{ route('news.show', $item->slug) }}" class="border border-slate-200 rounded-xl overflow-hidden hover:border-primary transition">
-        <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover">
-        <div class="p-4">
+      <a href="{{ route('news.show', $item->slug) }}" class="border border-slate-200 rounded-xl overflow-hidden p-4 hover:border-primary transition">
+        <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover rounded x-1">
+        <div class="py-4">
           <p class="font-semibold text-base mb-2">{{ $item->title }}</p>
+          <div class="block lg:hidden text-sm text-gray-600">
+            {!! Str::limit($item->content, 80) !!}
+          </div>
           <p class="text-sm text-gray-500">{{ $item->created_at->format('d M Y') }} | {{ $item->category->name }}</p>
         </div>
       </a>

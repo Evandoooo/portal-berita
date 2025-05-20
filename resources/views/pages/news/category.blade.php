@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $category->title)
+@section('title', $category->name)
 
 @section('content')
     <div class="w-full mb-16 bg-[#F6F6F6]">
