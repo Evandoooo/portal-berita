@@ -15,18 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'AdminBaru',
-            'email' => 'adminbaru@example.com',
-            'password' => Hash::make('admin1512'),
-            'role' => 'admin',  // pastikan kolom role ada di tabel users
-        ]);
+        
 
-        User::create([
-            'name' => 'UserBiasa',
-            'email' => 'user@example.com',
-            'password' => Hash::make('user1512'),
-            'role' => 'user',
-        ]);
+        // Panggil NewsSeeder
+        $this->call(NewsSeeder::class);
     }
 }

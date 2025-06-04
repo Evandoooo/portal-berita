@@ -48,7 +48,7 @@ class AuthController extends Controller
                 'regex:/[a-z]/', // huruf kecil
                 'regex:/[A-Z]/', // huruf besar
                 'regex:/[0-9]/', // angka
-                'regex:/[@$!%*?&#]/' // karakter khusus
+                'regex:/[@$!%*?&#.-_]/' // karakter khusus
             ],
         ]);
 

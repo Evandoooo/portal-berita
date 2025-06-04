@@ -3,34 +3,32 @@
 @section('title', 'Hasil Pencarian')
 
 @section('content')
-    <div class="w-full mb-16 bg-[#F6F6F6]">
-        <h1 class="text-center font-bold text-2xl p-24">Hasil Pencarian: "{{ $query }}"</h1>
-    </div>
+<div class="bg-gradient-to-b from-[#f6f8fc] to-white min-h-screen px-4 md:px-10 lg:px-14 py-10">
 
-    <div class="flex flex-col gap-5 px-4 lg:px-14 pb-10">
-        @if ($results->count())
-            <div class="grid sm:grid-cols-1 gap-5 lg:grid-cols-4">
-                @foreach ($results as $news)
-                    <a href="{{ route('news.show', $news->slug) }}">
-                        <div class="border border-slate-200 p-3 rounded-xl hover:border-primary hover:cursor-pointer transition duration-300 ease-in-out relative"
-                            style="height: 100%;">
-                            <div class="bg-primary text-white rounded-full w-fit px-5 py-1 font-normal ml-2 mt-2 text-sm absolute z-10">
-                                {{ $news->category->name ?? 'Tanpa Kategori' }}
-                            </div>
-                            <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full rounded-xl mb-3"
-                                style="height: 200px; object-fit: cover;">
-                            <p class="font-bold text-base mb-1">{{ $news->title }}</p>
-                            <p class="text-slate-400 text-sm">{{ \Carbon\Carbon::parse($news->created_at)->format('d F Y') }}</p>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 border-primary pb-3 inline-block">Hasil Pencarian: "{{ $query }}"</h1>
 
-            <div class="mt-10">
-                {{ $results->withQueryString()->links() }}
-            </div>
+    {{-- Grid untuk Pencarian Berita --}}
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10"> {{-- Grid baru --}}
+        @if($results->isEmpty())
+            <p class="text-center text-gray-500 text-base col-span-full">Tidak ada hasil ditemukan untuk pencarian "<strong>{{ $query }}</strong>"</p>
         @else
-            <p class="text-center text-gray-600">Tidak ada hasil ditemukan untuk pencarian "<strong>{{ $query }}</strong>".</p>
+            @foreach ($results as $news)
+                <a href="{{ route('news.show', $news->slug) }}"
+                   class="group relative block rounded-xl  bg-white shadow-md border border-slate-200 p-3 hover:border-primary transition  hover:shadow-lg">
+                    <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full rounded-lg mb-4 hover:opacity-95 transition"
+                        style="height: 200px; object-fit: cover;">
+                    <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($news->title, 8, '...') !!}</h2> 
+                    <p class="text-sm text-gray-600">{{ $metaInfo($news) }}</p>
+                    <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words(strip_tags($news->content), 26, '...') !!}</p>
+                </a>
+            @endforeach
         @endif
     </div>
+
+    <div class="mt-8">
+        {{ $results->withQueryString()->links() }}
+    </div>
+</div>    
+
+
 @endsection

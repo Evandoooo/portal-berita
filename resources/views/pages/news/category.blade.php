@@ -3,24 +3,29 @@
 @section('title', $category->name)
 
 @section('content')
-    <div class="w-full mb-16 bg-[#F6F6F6]">
-        <h1 class="text-center font-bold text-2xl p-24">{{ $category->name }}</h1>
-    </div>
 
-    <div class=" flex flex-col gap-5 px-4 lg:px-14">
-        <div class="grid sm:grid-cols-1 gap-5 lg:grid-cols-4">
+<div class="bg-gradient-to-b from-[#f6f8fc] to-white min-h-screen px-4 md:px-10 lg:px-14 py-10">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-primary pb-3 inline-block">
+        {{ $category->name }}
+    </h1>
+    
+    {{-- Grid untuk Berita Unggulan --}}
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10"> {{-- Grid baru --}}
+        @if($category->news->isEmpty())
+            <p class="text-center text-gray-500 text-base col-span-full">Belum ada berita untuk kategori ini.</p>
+        @else
             @foreach ($category->news as $news)
-                <a href="{{ route('news.show', $news->slug) }}">
-                    <div class="border border-slate-200 p-3 rounded-xl hover:border-primary hover:cursor-pointer transition duration-300 ease-in-out"
-                        style="height: 100%;">
-                        <div class="bg-primary text-white rounded-full w-fit px-5 py-1 font-normal ml-2 mt-2 text-sm absolute">{{ $news->category->name }}</div>
-                        <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full rounded-xl mb-3"
-                            style="height: 200px; object-fit: cover;">
-                        <p class="font-bold text-base mb-1">{{ $news->title }}</p>
-                        <p class="text-slate-400">{{ \Carbon\Carbon::parse($news->created_at)->format('d F Y') }}</p>
-                    </div>
+                <a href="{{ route('news.show', $news->slug) }}"
+                   class="group relative block rounded-xl  bg-white shadow-md border border-slate-200 p-3 hover:border-primary transition  hover:shadow-lg">
+                    {{-- Gambar Berita --}}
+                    <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full rounded-lg mb-4 hover:opacity-95 transition"
+                        style="height: 200px; object-fit: cover;">
+                    <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($news->title, 8, '...') !!}</h2> 
+                    <p class="text-sm text-gray-600">{{ $metaInfo($news) }}</p>
+                    <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words(strip_tags($news->content), 26, '...') !!}</p>
                 </a>
             @endforeach
-        </div>
+        @endif
     </div>
+</div>
 @endsection

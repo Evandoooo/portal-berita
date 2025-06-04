@@ -1,6 +1,7 @@
 <!-- Navbar -->
-<div class="sticky top-0 z-50 flex justify-between py-5 px-4 lg:px-14 bg-white shadow-sm">
-    <div class="flex items-center justify-between w-full">
+<div class="sticky top-0 z-50 bg-white shadow-sm">
+    <!-- Top Bar: Logo + Search + User -->
+    <div class="flex justify-between items-center py-4 px-4 lg:px-14">
         <!-- Logo -->
         <a href="{{ route('landing') }}">
             <div class="flex items-center gap-2">
@@ -8,80 +9,85 @@
             </div>
         </a>
 
-        <!-- Toggle Button (Mobile) -->
-        <button class="lg:hidden text-primary text-2xl focus:outline-none" id="menu-toggle">
-            ☰
-        </button>
-
-        <!-- Menu Navigasi (Desktop) -->
-        <div id="desktop-menu" class="hidden lg:flex lg:items-center lg:gap-10 ml-10">
-            <ul class="flex items-center gap-6 font-medium text-base">
-                <li>
-                    <a href="{{ route('landing') }}" class="{{ request()->is('/') ? 'text-primary' : '' }} hover:text-gray-600">
-                        Beranda
-                    </a>
-                </li>
-                @php
-                    $categories = \App\Models\Category::all();
-                @endphp
-                @foreach ($categories as $category)
-                    <li>
-                        <a href="{{ route('news.category', $category->slug) }}" class="hover:text-primary">
-                            {{ $category->name }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-
-    <!-- Search & Auth (Desktop) -->
-    <div class="hidden lg:flex items-center gap-4">
-        <form action="{{ route('news.search') }}" method="GET" class="relative w-full">
+        <form action="{{ route('news.search') }}" method="GET" class="relative w-full max-w-sm mx-auto flex-grow hidden lg:flex">
             <input type="text" name="q" placeholder="Cari berita..."
-                class="border border-slate-300 rounded-full px-4 py-2 pl-8 text-sm font-normal focus:outline-none focus:ring-primary focus:border-primary w-full"
+                class="rounded-full px-4 py-2 pl-8 text-sm font-normal
+                       bg-gray-100 border border-transparent
+                       focus:outline-none focus:bg-white focus:shadow-sm focus:ring-0 w-full"
                 autocomplete="off" />
-            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+            <span class="absolute inset-y-0 left-2 flex items-center text-slate-400">
                 <img src="{{ asset('assets/img/search.png') }}" alt="search" class="w-4">
             </span>
         </form>
 
-        <!-- Auth Dropdown -->
-        @auth
-            <div class="relative group">
-                <button class="flex items-center gap-2 text-sm text-gray-700 font-medium focus:outline-none">
-                    <span>Halo, {{ Auth::user()->name }}</span>
-                    <svg class="w-4 h-4 transform group-hover:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
-                    <div class="px-4 py-3 border-b border-gray-200">
-                        <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
-                    </div>
-                    <ul class="py-2">
-                        <li>
-                            <a href="{{ route('user.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Berita yang Disimpan</a>
+        <!-- Auth (Desktop) -->
+        <div class="hidden lg:flex items-center gap-4">
+            @auth
+                <div class="relative group">
+                    <button class="flex items-center gap-2 text-sm text-gray-700 font-medium focus:outline-none">
+                        <span>Halo, {{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 transform group-hover:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+                        <div class="px-4 py-3 border-b border-gray-200">
+                            <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
+                        </div>
+                        <ul class="py-2">
+                            <li>
+                                <a href="{{ route('user.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Berita yang Disimpan</a>
 
-                        </li>
-                    </ul>
-                    <div class="px-4 py-2 border-t border-gray-200">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="w-full text-left text-sm text-red-600 hover:text-red-800 font-semibold">Logout</button>
-                        </form>
+                            </li>
+                        </ul>
+                        <div class="px-4 py-2 border-t border-gray-200">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full text-left text-sm text-red-600 hover:text-red-800 font-semibold">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @else
-            <a href="{{ route('login') }}"
-                class="bg-primary px-6 py-2 rounded-full text-white font-semibold text-sm">
-                Masuk
-            </a>
-        @endauth
+            @else
+                <a href="{{ route('login') }}"
+                    class="bg-gray-600 hover:bg-black px-6 py-2 rounded-full text-white font-semibold text-sm">
+                    Masuk
+                </a>
+            @endauth
+        </div>
+
+        <!-- Toggle Button (Mobile) -->
+        <!-- Toggle Button (Mobile) -->
+        <button class="lg:hidden focus:outline-none" id="menu-toggle">
+            <img src="{{ asset('assets/img/menu-icon.png') }}" alt="Menu" class="w-10 h-6">
+        </button>
     </div>
+
+
+    <!-- Menu Kategori (Desktop) -->
+
+    <div class="hidden lg:flex px-4 lg:px-14 pb-3 overflow-x-auto">
+        <ul class="flex justify-center flex-grow gap-6 font-semibold text-sm text-gray-600 whitespace-nowrap">
+            <li>
+                <a href="{{ route('landing') }}"
+                    class="{{ request()->is('/') ? 'border-b-2 border-black pb-2 text-black' : '' }} hover:text-black transition-colors duration-200">
+                    Home
+                </a>
+            </li>
+            @foreach ($categories as $category)
+                <li>
+                    <a href="{{ route('news.category', $category->slug) }}"
+                        class="{{ request()->routeIs('news.category') && request()->route('category') == $category->slug ? 'border-b-2 border-black pb-1 text-black' : '' }} hover:text-black transition-colors duration-200 whitespace-nowrap">
+                        {{ $category->name }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+    
+
 </div>
 
 <!-- Mobile Menu -->
@@ -110,7 +116,7 @@
         </div>
     @else
         <a href="{{ route('login') }}"
-            class="block text-center bg-primary px-4 py-2 rounded-full text-white font-semibold text-sm">
+            class="block text-center bg-gray-600 px-4 py-2 rounded-full text-white font-semibold text-sm">
             Masuk
         </a>
     @endauth
@@ -123,9 +129,9 @@
         </li>
         @foreach ($categories as $category)
             <li>
-                <a href="{{ route('news.category', $category->slug) }}" class="hover:text-primary">
-                    {{ $category->name }}
-                </a>
+                <a href="{{ route('news.category', $category->slug) }}" class="hover:text-gray-600">
+                        {{ $category->name }}
+                    </a>
             </li>
         @endforeach
     </ul>

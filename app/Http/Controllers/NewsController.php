@@ -10,18 +10,27 @@ class NewsController extends Controller
 {
     public function show($slug) 
     {
-        $news = News::where('slug', $slug)->firstOrFail();
+        $news = News::with(['comments.user', 'category'])->where('slug', $slug)->firstOrFail();
         $newests = News::where('id', '!=', $news->id)->latest()->take(5)->get();
 
-        return view('pages.news.show', compact('news', 'newests'));
-    }
+        $metaInfo = function($item) {
+            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+        };
 
+
+        return view('pages.news.show', compact('news', 'newests', 'metaInfo'));
+    }
 
     public function category($slug) 
     {
         $category = Category::where('slug', $slug)->first();
 
-        return view('pages.news.category', compact('category'));
+        $metaInfo = function($item) {
+            return $item->created_at->diffForHumans() . ' | ' . $item->category->name;
+        };
+
+
+        return view('pages.news.category', compact('category', 'metaInfo'));
     }
 
     public function search(Request $request)
@@ -34,9 +43,13 @@ class NewsController extends Controller
             ->orWhereHas('category', function ($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%");
             })
-            ->paginate(10); // Atur pagination jika perlu
+            ->paginate(12); // Atur pagination jika perlu
 
-        return view('pages.news.search-results', compact('results', 'query'));
+        $metaInfo = function($item) {
+            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+        };
+
+        return view('pages.news.search-results', compact('results', 'query', 'metaInfo'));
     }
 
     public function save(News $news)
@@ -50,4 +63,21 @@ class NewsController extends Controller
         auth()->user()->savedNews()->detach($news->id);
         return back()->with('success', 'Berita dihapus dari simpanan.');
     }
+
+    public function loadFeaturedNews()
+    {
+        // Untuk halaman BERITA UNGGULAN: Ambil SEMUA berita unggulan dengan paginasi
+        $allFeaturedNews = News::where('is_featured', true)
+                               ->latest()
+                               ->paginate(20); // Sesuaikan jumlah item per halaman di sini (misal 9 untuk 3x3 grid)
+
+        $metaInfo = function($item) {
+            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+        };
+
+        return view('pages.news.featured-news', compact(
+            'allFeaturedNews',
+            'metaInfo'
+        ));
+    }   
 }

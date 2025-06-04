@@ -3,84 +3,127 @@
 @section('title', 'BeritaKita | Baca Berita Lebih Mudah')
 
 @section('content')
-<div class="px-4 md:px-10 lg:px-14 mt-10">
-  {{-- SECTION 1: Berita Utama dan Satu Berita Pendukung --}}
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-10">
-    {{-- Berita Utama (col-span-8) --}}
-    <a href="{{ route('news.show', $news[0]->slug) }}" class="lg:col-span-8 flex flex-col md:flex-row border border-slate-200 rounded-xl overflow-hidden hover:border-primary transition">
-      {{-- Berita Utama dengan gambar terpisah --}}
-      <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch border border-slate-200 rounded-xl overflow-hidden p-4">
-        {{-- Gambar --}}
-        <div class="md:col-span-2">
-          <img src="{{ asset('storage/' . $news[0]->image) }}" alt="berita utama" class="w-full h-full object-cover rounded-xl">
-        </div>
+<div class="bg-[#f6f8fc] min-h-screen px-4 md:px-10 lg:px-14 py-10">
+  {{-- Komponen: Card Utama Horizontal --}}
+  @foreach ($beritaPertama as $key => $item)
+    @if ($key === 0)
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-10">
+        {{-- Berita Utama --}}
+        <a href="{{ route('news.show', $item->slug) }}" class="lg:col-span-8 flex flex-col md:flex-row bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden transition hover:shadow-lg">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch p-4 w-full">
+            {{-- Gambar --}}
+            <div class="md:col-span-2">
+              <img src="{{ asset('storage/' . $item->image) }}" alt="berita utama" class="w-full h-full object-cover rounded-xl hover:opacity-95 transition">
+            </div>
+            {{-- Konten --}}
+            <div class="md:col-span-1 flex flex-col justify-between">
+              <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($item->title, 8, '...') !!}</h2> 
+              <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p>
+              <p class="font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 26, '...') !!}</p>
+            </div>
+          </div>
+        </a>
 
-        {{-- Konten --}}
-        <div class="md:col-span-1 flex flex-col justify-between">
-          <div>
-            <h2 class="text-2xl font-bold mb-1">{{ $news[0]->title }}</h2>
-            <p class="text-sm text-gray-600 mb-4">{!! Str::limit($news[0]->content, 100) !!}</p>
-          </div>
-          <div class="text-sm text-gray-500 flex gap-3 mt-auto">
-            <span>{{ $news[0]->created_at->format('d M Y') }}</span>
-            <span>|</span>
-            <span>{{ $news[0]->category->name }}</span>
-          </div>
-        </div>
+        {{-- Berita Pendamping --}}
+        @if(isset($beritaPertama[1]))
+          <a href="{{ route('news.show', $beritaPertama[1]->slug) }}" class="lg:col-span-4 bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden p-4 flex flex-col transition hover:shadow-lg">
+            <img src="{{ asset('storage/' . $beritaPertama[1]->image) }}" class="w-full h-40 object-cover rounded-lg mb-4 hover:opacity-95 transition">
+            <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($beritaPertama[1]->title, 8, '...') !!}</h2> 
+            <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($beritaPertama[1]) }}</p>
+            <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words($beritaPertama[1]->content, 26, '...') !!}</p>
+          </a>
+        @endif
       </div>
-    </a>
-    {{-- Satu Berita di Samping (col-span-4) --}}
-    @if ($news->count() > 1)
-      <a href="{{ route('news.show', $news[1]->slug) }}" class="lg:col-span-4 border border-slate-200 rounded-xl overflow-hidden p-4 hover:border-primary transition">
-        <img src="{{ asset('storage/' . $news[1]->image) }}" class="w-full h-40 object-cover rounded x-1">
-        <div class="py-4">
-          <p class="font-semibold text-base mb-2">{{ $news[1]->title }}</p>
-          <div class="block lg:hidden text-sm text-gray-600">
-            {!! Str::limit($news[1]->content, 80) !!}
-          </div>
-          <p class="text-sm text-gray-500">{{ $news[1]->created_at->format('d M Y') }} | {{ $news[1]->category->name }}</p>
-        </div>
-      </a>
     @endif
-  </div>
+  @endforeach
 
-  {{-- SECTION 2: Grid Berita Bawah (4 kolom) --}}
+  {{-- Grid 4 Berita --}}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-    @foreach ($news->skip(2)->take(4) as $item)
-      <a href="{{ route('news.show', $item->slug) }}" class="border border-slate-200 rounded-xl overflow-hidden p-4 hover:border-primary transition">
-        <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover rounded x-1">
-        <div class="py-4">
-          <p class="font-semibold text-base mb-2">{{ $item->title }}</p>
-          <div class="block lg:hidden text-sm text-gray-600">
-            {!! Str::limit($item->content, 80) !!}
-          </div>
-          <p class="text-sm text-gray-500">{{ $item->created_at->format('d M Y') }} | {{ $item->category->name }}</p>
+    @foreach ($beritaGrid1 as $item)
+      <a href="{{ route('news.show', $item->slug) }}" class="bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden p-4 transition hover:shadow-lg">
+        <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover rounded hover:opacity-95 transition">
+        <div class="py-4 flex-1">
+          <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($item->title, 8, '...') !!}</h2>
+          <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p>
+          <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 26, '...') !!}</p>
         </div>
       </a>
     @endforeach
   </div>
 
-  {{-- SECTION 3: Berita Unggulan Besar (2 kolom horizontal) --}}
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    @foreach ($featureds as $index => $featured)
-      <a href="{{ route('news.show', $featured->slug) }}" class="flex flex-col lg:flex-row border border-slate-200 rounded-xl overflow-hidden hover:border-primary transition">
-        @if ($index % 2 === 0)
-          <div class="lg:w-1/2">
-            <img src="{{ asset('storage/' . $featured->image) }}" class="w-full h-full object-cover">
+  {{-- Kombinasi Berita Besar dan Kecil --}}
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-10">
+    @foreach ($beritaKedua as $key => $item)
+      @if ($key === 0)
+        {{-- Berita Kecil --}}
+        <a href="{{ route('news.show', $item->slug) }}" class="lg:col-span-4 bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden p-4 flex flex-col transition hover:shadow-lg">
+          <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover rounded-lg mb-4 hover:opacity-95 transition">
+          <h2 class="font-semibold text-xl hover:underline transition mb-4">{{ $item->title }}</h2>
+          <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p>
+          <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 26, '...') !!}</p>
+        </a>
+      @else
+        {{-- Berita Besar --}}
+        <a href="{{ route('news.show', $item->slug) }}" class="lg:col-span-8 flex flex-col md:flex-row bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden transition hover:shadow-lg">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch p-4 w-full">
+            <div class="md:col-span-2">
+              <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-full object-cover rounded-xl hover:opacity-95 transition">
+            </div>
+            <div class="md:col-span-1 flex flex-col justify-between">
+              <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($item->title, 8, '...') !!}</h2> 
+              <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p>
+              <p class="font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 26, '...') !!}</p>
+            </div>
           </div>
-        @endif
-        <div class="p-5 lg:w-1/2">
-          <p class="font-bold text-lg mb-2">{{ $featured->title }}</p>
-          <p class="text-sm text-gray-500 mb-3">{{ $featured->created_at->format('d M Y') }} | {{ $featured->category->name }}</p>
-          <p class="text-sm text-gray-600">{!! Str::limit($featured->content, 100) !!}</p>
+        </a>
+      @endif
+    @endforeach
+  </div>
+
+  {{-- Grid 4 Berita Bawah --}}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+    @foreach ($beritaGrid2 as $item)
+      <a href="{{ route('news.show', $item->slug) }}" class="bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden p-4 transition hover:shadow-lg">
+        <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-40 object-cover rounded hover:opacity-95 transition">
+        <div class="py-4 flex-1">
+          <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($item->title, 8, '...' ) !!}</h2>
+          <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p>
+          <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 12, '...') !!}</p>
         </div>
-        @if ($index % 2 === 1)
-          <div class="lg:w-1/2">
-            <img src="{{ asset('storage/' . $featured->image) }}" class="w-full h-full object-cover">
-          </div>
-        @endif
       </a>
     @endforeach
   </div>
+
+  {{-- FEATURED SECTION: Berita Unggulan --}}
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-primary pb-2 inline-block">Berita Unggulan</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5"> 
+        @foreach ($featureds as $item)
+          <a href="{{ route('news.show', $item->slug) }}"
+            class=" bg-white shadow-md border border-slate-200 rounded-xl overflow-hidden flex flex-col lg:flex-row p-4 gap-4 hover:shadow-lg">
+              <!-- Gambar -->
+              <div class="w-full lg:w-1/2">
+                  <img src="{{ asset('storage/' . $item->image) }}" class="w-full h-48 object-cover rounded-lg shadow hover:opacity-95 transition-opacity">
+                
+              </div>
+              <!-- Konten -->
+              <div class="w-full lg:w-1/2 flex flex-col justify-between">
+                  <h2 class="text-xl font-semibold mb-4 leading-tight hover:underline transition-colors">{!! Str::words($item->title, 8, '...') !!}</h2> {{-- Semi Bold 20px --}}
+                  <p class="text-slate-600 text-sm text-gray-600">{{ $metaInfo($item) }}</p> {{-- Regular 16px --}}
+                  <p class="font-normal text-base text-gray-600 mt-4">{!! Str::words($item->content, 15, '...') !!}</p> {{-- Regular 16px --}}
+              </div>
+          </a>
+        @endforeach
+      </div>
+    
+      {{-- Tombol "Selengkapnya" yang merutekan ke halaman berita unggulan --}}
+        <div class="mt-8 text-center">
+            <a href="{{ route('news.featured-news') }}"
+              class="inline-block bg-white text-gray-800 font-bold py-2 px-4 rounded-lg  shadow-md hover:shadow-lg hover:bg-gray-50 transition-all duration-300">
+                Selengkapnya
+            </a>
+        </div>
+  </div>
+
 </div>
 @endsection

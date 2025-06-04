@@ -5,9 +5,11 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 use Filament\Facades\Filament;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/featured-news', [NewsController::class, 'loadFeaturedNews'])->name('news.featured-news');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,5 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 });
 
+Route::post('/news/{news}/comment', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
+
 Route::get('/{slug}', [NewsController::class, 'category'])->name('news.category');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+

@@ -33,7 +33,7 @@ class User extends Authenticatable
         return $this->belongsToMany(News::class, 'news_user')->withTimestamps();
     }
     
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
