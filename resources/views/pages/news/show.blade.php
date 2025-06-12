@@ -73,7 +73,8 @@
                             <a href="{{ route('news.show', $new->slug) }}">
                                 <div class="flex gap-3 bg-gray-50 shadow hover:border-gray-200 p-3 rounded-xl transition hover:shadow-md">
                                     <div class="flex gap-3 flex-col">
-                                        <img src="{{ asset('storage/' . $new->image) }}" class="w-full h-full object-cover rounded-xl">
+                                        <img src="{{ asset('storage/' . $new->image) }}" class="w-full h-full object-cover rounded-xl"
+                                            style="object-fit: cover;">
                                         <h2 class=" font-semibold text-xl hover:underline transition ">{!! Str::words($new->title, 8, '...') !!}</h2>
                                     </div>
                                 </div>

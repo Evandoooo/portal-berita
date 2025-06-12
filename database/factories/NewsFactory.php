@@ -8,29 +8,23 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\News>
- */
 class NewsFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     protected $model = News::class;
 
     public function definition(): array
     {
         $title = $this->faker->sentence();
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'category_id' => Category::inRandomOrder()->first()->id,
+            // CARA YANG BENAR UNTUK RELASI
+            'user_id' => User::factory(),     // Otomatis membuat User baru
+            'category_id' => Category::factory(), // Otomatis membuat Category baru
+
             'title' => $title,
-            'slug' => Str::slug($title) . '-' . Str::random(5),
-            'content' => $this->faker->paragraphs(20, true), // ±200 kata
-            'is_featured' => $this->faker->boolean(30),
-            'image' => $this->faker->image('public/storage', 640, 480, null, false),
+            'slug' => Str::slug($title), // Slug sebaiknya dibuat unik
+            'content' => $this->faker->paragraphs(10, true),
+            'is_featured' => $this->faker->boolean(20),
+            'image' => 'images/dummy-image.jpg',
         ];
     }
 }

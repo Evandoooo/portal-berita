@@ -46,7 +46,7 @@ class NewsController extends Controller
             ->paginate(12); // Atur pagination jika perlu
 
         $metaInfo = function($item) {
-            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+            return $item->created_at->diffForHumans() . ' | ' . $item->category->name;
         };
 
         return view('pages.news.search-results', compact('results', 'query', 'metaInfo'));
@@ -72,7 +72,7 @@ class NewsController extends Controller
                                ->paginate(20); // Sesuaikan jumlah item per halaman di sini (misal 9 untuk 3x3 grid)
 
         $metaInfo = function($item) {
-            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+            return $item->created_at->diffForHumans() . ' | ' . $item->category->name;
         };
 
         return view('pages.news.featured-news', compact(

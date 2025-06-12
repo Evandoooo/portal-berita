@@ -21,19 +21,19 @@
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input type="email" id="email" name="email" value="{{ old('email') }}"
                required autofocus
-               class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') border-red-500 @enderror">
+               class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-gray-500 @error('email') border-red-500 @enderror">
         @error('email')
           <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
         @enderror
       </div>
 
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+      <button type="button" class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 transition">
         Kirim Link Reset Password
       </button>
     </form>
 
     <p class="mt-4 text-center text-sm text-gray-600">
-      <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline">Kembali ke Login</a>
+      <a href="{{ route('login') }}" class="text-gray-600 font-semibold hover:underline">Kembali ke Login</a>
     </p>
   </div>
 </div>

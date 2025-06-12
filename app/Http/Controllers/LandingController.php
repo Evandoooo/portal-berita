@@ -3,18 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class LandingController extends Controller
 {
     public function index() 
     {
-        $featureds = News::where('is_featured', true)
+        // 1. Cache untuk featured news (dengan paginasi)
+        $featureds = Cache::remember('featured_news_page_' . request('page', 1), 600, function () {
+            // Query ini hanya akan jalan jika cache kosong atau sudah kedaluwarsa (10 menit)
+            return News::where('is_featured', true)
+                         ->with(['user', 'category']) // Tambahkan eager loading untuk efisiensi
                          ->latest()
-                         ->paginate(10); 
+                         ->paginate(10);
+        }); 
         
-        // Ambil 12 berita terbaru
-        $news = News::latest()->take(12)->get();
+        // 2. Cache untuk 12 berita terbaru
+        $news = Cache::remember('latest_12_news', 600, function () {
+            // Query ini hanya akan jalan jika cache 'latest_12_news' kosong
+            return News::with(['user', 'category']) // Eager load relasi sebelum caching
+                         ->latest()
+                         ->take(12)
+                         ->get();
+        });
+        
+        // 2. AMBIL DATA KATEGORI DI SINI
+        $categories = Category::all();
 
         // Potong menjadi bagian-bagian
         $beritaPertama = $news->slice(0, 2)->values();
@@ -25,7 +41,7 @@ class LandingController extends Controller
         
         // fungsi metaInfo 
         $metaInfo = function($item) {
-            return $item->created_at->format('d M Y') . ' | ' . $item->category->name;
+            return $item->created_at->diffForHumans() . ' | ' . $item->category->name;
         };
 
         // Kirim ke view
@@ -35,7 +51,8 @@ class LandingController extends Controller
             'beritaGrid1',
             'beritaKedua',
             'beritaGrid2',
-            'metaInfo'
+            'metaInfo',
+            'categories'
         ));
     }
 }

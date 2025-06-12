@@ -60,7 +60,7 @@
 
         <!-- Toggle Button (Mobile) -->
         <button class="lg:hidden focus:outline-none" id="menu-toggle">
-            <img src="{{ asset('assets/img/menu-icon.png') }}" alt="Menu" class="w-10 h-6">
+            <img src="{{ asset('assets/img/menu-icon.png') }}" alt="Menu" class="w-9 h-5">
         </button>
     </div>
 

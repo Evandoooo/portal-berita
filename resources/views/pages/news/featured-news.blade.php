@@ -16,11 +16,11 @@
                 <a href="{{ route('news.show', $news->slug) }}"
                    class="group relative block rounded-xl  bg-white shadow-md border border-slate-200 p-3 hover:border-primary transition  hover:shadow-lg">
                     {{-- Gambar Berita --}}
-                    <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full rounded-lg mb-4 hover:opacity-95 transition"
-                        style="height: 200px; object-fit: cover;">
+                    <img src="{{ asset('storage/' . $news->image) }}" alt="" class="w-full h-40 object-cover rounded-lg mb-4 hover:opacity-95 transition"
+                        style="object-fit: cover;">
                     <h2 class="font-semibold text-xl hover:underline transition mb-4">{!! Str::words($news->title, 8, '...') !!}</h2> 
                     <p class="text-sm text-gray-600">{{ $metaInfo($news) }}</p>
-                    <p class="block lg:hidden font-normal text-base text-gray-600 mt-4">{!! Str::words(strip_tags($news->content), 26, '...') !!}</p>
+                    <p class="block lg:hidden font-normal text-sm text-gray-600 mt-4">{!! Str::words(strip_tags($news->content), 10, '...') !!}</p>
                 </a>
             @endforeach
         @endif
