@@ -11,14 +11,11 @@ class NewsByCategoryChart extends ChartWidget
 {
     protected static ?string $heading = 'Komposisi Berita per Kategori';
 
-    protected static ?int $sort = 3; // Urutan widget di dashboard
-
+    protected static ?int $sort = 3; 
     protected function getData(): array
     {
-        // Mengambil data kategori beserta jumlah berita di dalamnya
         $data = Category::withCount('news')->get();
 
-        // Jika tidak ada data, kembalikan array kosong agar tidak error
         if ($data->isEmpty()) {
             return [
                 'datasets' => [],
@@ -26,7 +23,6 @@ class NewsByCategoryChart extends ChartWidget
             ];
         }
 
-        // Memproses data untuk dijadikan label dan nilai untuk chart
         $labels = $data->pluck('name');
         $values = $data->pluck('news_count');
 
@@ -35,7 +31,6 @@ class NewsByCategoryChart extends ChartWidget
                 [
                     'label' => 'Jumlah Berita',
                     'data' => $values,
-                    // Memberikan warna yang berbeda untuk setiap potongan pie
                     'backgroundColor' => [
                         '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#C9CBCF'
                     ],
@@ -55,10 +50,10 @@ class NewsByCategoryChart extends ChartWidget
         return [
             'scales' => [
                 'x' => [
-                    'display' => false, // Menyembunyikan sumbu-X (bawah)
+                    'display' => false, 
                 ],
                 'y' => [
-                    'display' => false, // Menyembunyikan sumbu-Y (pinggir)
+                    'display' => false, 
                 ],
             ],
         ];

@@ -14,10 +14,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        // Mengambil semua berita, diurutkan dari yang terbaru, dan dipaginasi
         $news = News::with(['user', 'category'])->latest()->paginate(10);
 
-        // Mengembalikan data sebagai koleksi NewsResource
         return NewsResource::collection($news);
     }
 
@@ -34,7 +32,6 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        // Mengembalikan data berita tunggal sebagai NewsResource
         return new NewsResource($news->load(['user', 'category']));
     }
 

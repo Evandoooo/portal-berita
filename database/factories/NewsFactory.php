@@ -16,12 +16,11 @@ class NewsFactory extends Factory
     {
         $title = $this->faker->sentence();
         return [
-            // CARA YANG BENAR UNTUK RELASI
-            'user_id' => User::factory(),     // Otomatis membuat User baru
-            'category_id' => Category::factory(), // Otomatis membuat Category baru
+            'user_id' => User::factory(),    
+            'category_id' => Category::factory(), 
 
             'title' => $title,
-            'slug' => Str::slug($title), // Slug sebaiknya dibuat unik
+            'slug' => Str::slug($title), 
             'content' => $this->faker->paragraphs(10, true),
             'is_featured' => $this->faker->boolean(20),
             'image' => 'images/dummy-image.jpg',

@@ -45,10 +45,10 @@ class AuthController extends Controller
                 'required',
                 'confirmed',
                 'min:8',
-                'regex:/[a-z]/', // huruf kecil
-                'regex:/[A-Z]/', // huruf besar
-                'regex:/[0-9]/', // angka
-                'regex:/[@$!%*?&#.-_]/' // karakter khusus
+                'regex:/[a-z]/', 
+                'regex:/[A-Z]/', 
+                'regex:/[0-9]/', 
+                'regex:/[@$!%*?&#.-_]/' 
             ],
         ]);
 

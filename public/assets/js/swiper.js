@@ -28,7 +28,6 @@ const swiper = new Swiper('.mySwiper', {
       const swiperContainer = document.querySelector('.mySwiper .swiper-wrapper');
       const slides = swiperContainer.querySelectorAll('.swiper-slide');
 
-      // Duplikat slide secara manual
       if (slides.length === 3) {
         slides.forEach((slide) => {
           const clone = slide.cloneNode(true);

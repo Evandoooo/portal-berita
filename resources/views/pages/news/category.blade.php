@@ -9,7 +9,6 @@
         {{ $category->name }}
     </h1>
     
-    {{-- Grid untuk Berita Unggulan --}}
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10"> {{-- Grid baru --}}
         @if($category->news->isEmpty())
             <p class="text-center text-gray-500 text-base col-span-full">Belum ada berita untuk kategori ini.</p>

@@ -17,10 +17,9 @@ class NewsResource extends JsonResource
         return [
             'id_berita' => $this->id,
             'judul' => $this->title,
-            // Asumsi ada relasi 'user' dan 'category' di model News Anda
             'penulis' => $this->user->name,
             'kategori' => $this->category->name,
-            'isi_konten' => $this->content, // Menggunakan 'content' sesuai resource Anda
+            'isi_konten' => $this->content, 
             'tanggal_dibuat' => $this->created_at->format('d F Y H:i'),
         ];
     }

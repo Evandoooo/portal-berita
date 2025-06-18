@@ -3,15 +3,12 @@
 @section('title', $news->title)
 
 @section('content')
-    <!-- Detail Berita -->
     <div class="flex flex-col px-4 lg:px-14 mt-10">
-        <!-- Judul & Metadata -->
         <div class="mb-6 text-center lg:text-left">
             <h1 class="font-semibold text-2xl lg:text-3xl mb-4">{{ $news->title }}</h1> 
             <p class="text-slate-600 text-sm flex lg:justify-start items-center gap-2">{{ $metaInfo($news) }}</p>
         </div>
 
-        <!-- Bagian Share -->
         <div class="flex justify-between items-center mb-6">
             <div class="flex gap-3 items-center">
                 <span class="font-semibold text-sm">Bagikan:</span>
@@ -52,10 +49,7 @@
             @endauth
         </div>
 
-
-        <!-- Isi & Sidebar -->
         <div class="flex flex-col lg:flex-row w-full gap-10">
-            <!-- Berita Utama -->
             <div class="lg:w-8/12">
                 <img src="{{ asset('storage/' . $news->image) }}" alt="gambar" class="w-full max-h-96 rounded-xl object-cover mb-6">
                 <div class="prose max-w-full prose-sm lg:prose-base prose-slate">
@@ -63,7 +57,6 @@
                 </div>
             </div>
 
-            <!-- Berita Terbaru -->
             <div class="lg:w-4/12 flex flex-col gap-10">
                 <div class="sticky top-24 z-40">
                     <p class="font-semibold mb-8 text-xl lg:text-2xl">Berita Terbaru Lainnya</p>
@@ -85,7 +78,6 @@
             </div>
         </div>
 
-        <!-- Form Komentar -->
         <h3 class="text-xl font-semibold mt-10 mb-4">Komentar</h3>
 
         @auth
@@ -109,14 +101,12 @@
                 <div class="space-y-4">
                     @foreach ($news->comments->sortByDesc('created_at') as $comment)
                         <div class="flex gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
-                            <!-- Avatar -->
                             <div class="flex-shrink-0">
                                 <img src="{{ asset('assets/img/profile.png') }}"
                                     alt="{{ $comment->user->name }}"
                                     class="w-10 h-10 rounded-full object-cover">
                             </div>
 
-                            <!-- Comment content -->
                             <div>
                                 <div class="flex items-center gap-2">
                                     <p class="font-semibold text-gray-800">{{ $comment->user->name }}</p>

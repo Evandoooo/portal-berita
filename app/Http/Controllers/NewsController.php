@@ -43,7 +43,7 @@ class NewsController extends Controller
             ->orWhereHas('category', function ($q) use ($query) {
                 $q->where('name', 'like', "%{$query}%");
             })
-            ->paginate(12); // Atur pagination jika perlu
+            ->paginate(12);
 
         $metaInfo = function($item) {
             return $item->created_at->diffForHumans() . ' | ' . $item->category->name;
@@ -66,10 +66,9 @@ class NewsController extends Controller
 
     public function loadFeaturedNews()
     {
-        // Untuk halaman BERITA UNGGULAN: Ambil SEMUA berita unggulan dengan paginasi
         $allFeaturedNews = News::where('is_featured', true)
                                ->latest()
-                               ->paginate(20); // Sesuaikan jumlah item per halaman di sini (misal 9 untuk 3x3 grid)
+                               ->paginate(20); 
 
         $metaInfo = function($item) {
             return $item->created_at->diffForHumans() . ' | ' . $item->category->name;

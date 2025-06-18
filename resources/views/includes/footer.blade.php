@@ -5,7 +5,6 @@
         </div>
 
         <div class="flex flex-col lg:flex-row justify-between gap-8">
-            {{-- TELUSURI --}}
             <div>
                 <h2 class="text-sm font-bold mb-7">TELUSURI</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm text-gray-300">
@@ -17,8 +16,6 @@
                 </div>
             </div>
 
-
-            {{-- TAUTAN SOSIAL --}}
             <div>
                 <h2 class="text-sm font-bold mb-4">TAUTAN</h2>
                 <div class="flex space-x-4 text-white text-xl">

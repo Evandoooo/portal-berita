@@ -4,13 +4,11 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="max-w-md w-full bg-white p-6 rounded-md shadow-md">
     
-    {{-- Logo dan Judul --}}
     <div class="text-center mb-6">
       <a href="/" class="text-2xl font-bold italic text-gray-800">BeritaKita<span class="font-normal">.com</span></a>
       <p class="text-sm mt-2 text-gray-600">Daftar untuk bergabung bersama kami</p>
     </div>
 
-    {{-- Tampilkan pesan status (jika ada) --}}
     @if(session('status'))
       <div class="mb-4 text-green-600 bg-green-100 p-2 rounded">
         {{ session('status') }}
@@ -20,7 +18,6 @@
     <form action="{{ route('register') }}" method="POST">
       @csrf
 
-      {{-- Name --}}
       <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
         <input type="text" id="name" name="name" value="{{ old('name') }}" required
@@ -30,7 +27,6 @@
         @enderror
       </div>
 
-      {{-- Email --}}
       <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input type="email" id="email" name="email" value="{{ old('email') }}" required
@@ -40,7 +36,6 @@
         @enderror
       </div>
 
-      {{-- Password --}}
       <div class="mb-4">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
         <input type="password" id="password" name="password" required
@@ -54,7 +49,6 @@
         </p>
       </div>
 
-      {{-- Konfirmasi Password --}}
       <div class="mb-4">
         <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
         <input type="password" id="password_confirmation" name="password_confirmation" required
@@ -70,17 +64,14 @@
         </label>
       </div>
 
-      {{-- Tombol Submit --}}
       <button type="submit" class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 transition">
         Daftar
       </button>
 
-      {{-- Tombol Kembali --}}
       <p class="mt-4 text-center text-sm text-gray-600">
       <a href="{{ url()->previous() }}" class="text-gray-600 font-semibold hover:underline">Kembali</a>
       </p>
       
-      {{-- Sudah punya akun --}}
       <div class="mt-4 text-center text-sm text-gray-600">
         Sudah memiliki akun? <a href="{{ route('login') }}" class="text-gray-800 font-semibold hover:underline">Masuk sekarang</a>
       </div>

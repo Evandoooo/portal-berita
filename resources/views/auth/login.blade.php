@@ -8,7 +8,6 @@
       <p class="text-sm mt-2 text-gray-600">Masuk ke Akun Berita Anda</p>
     </div>
 
-    {{-- Flash error message (login gagal) --}}
     @if(session('error'))
       <div class="mb-4 bg-red-100 text-red-700 px-4 py-2 rounded">
         {{ session('error') }}
@@ -29,7 +28,6 @@
         @enderror
       </div>
 
-      {{-- Password --}}
       <div class="mb-4">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
         <input type="password" id="password" name="password" 
@@ -40,12 +38,10 @@
         @enderror
       </div>
 
-      {{-- Forgot Password --}}
       <div class="text-right text-sm mb-4">
         <a href="{{ route('password.request') }}" class="hover:underline">Lupa password?</a>
       </div>
 
-      {{-- Submit --}}
       <button type="submit" class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 transition">
         Lanjutkan
       </button>
@@ -54,7 +50,6 @@
       <a href="{{ url()->previous() }}" class="text-gray-600 font-semibold hover:underline">Kembali</a>
       </p>
 
-      {{-- Link ke register --}}
       <p class="mt-4 text-center text-sm text-gray-600">
         Belum memiliki akun? 
         <a href="{{ route('register') }}" class="text-gray-800 font-semibold hover:underline">Daftar sekarang</a>

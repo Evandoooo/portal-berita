@@ -15,9 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        // Panggil NewsSeeder
         $this->call(NewsSeeder::class);
     }
 }

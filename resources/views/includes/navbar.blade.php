@@ -1,8 +1,6 @@
 <!-- Navbar -->
 <div class="sticky top-0 z-50 bg-white shadow-sm">
-    <!-- Top Bar: Logo + Search + User -->
     <div class="flex justify-between items-center py-4 px-4 lg:px-14">
-        <!-- Logo -->
         <a href="{{ route('landing') }}">
             <div class="flex items-center gap-2">
                 <p class="text-xl font-bold italic">BeritaKita<span class="font-normal">.com</span></p>
@@ -20,7 +18,6 @@
             </span>
         </form>
 
-        <!-- Auth (Desktop) -->
         <div class="hidden lg:flex items-center gap-4">
             @auth
                 <div class="relative group">
@@ -58,14 +55,10 @@
             @endauth
         </div>
 
-        <!-- Toggle Button (Mobile) -->
         <button class="lg:hidden focus:outline-none" id="menu-toggle">
             <img src="{{ asset('assets/img/menu-icon.png') }}" alt="Menu" class="w-9 h-5">
         </button>
     </div>
-
-
-    <!-- Menu Kategori (Desktop) -->
 
     <div class="hidden lg:flex px-4 lg:px-14 pb-3 overflow-x-auto">
         <ul class="flex justify-center flex-grow gap-6 font-semibold text-sm text-gray-600 whitespace-nowrap">
@@ -91,7 +84,6 @@
 
 <!-- Mobile Menu -->
 <div id="menu" class="hidden lg:hidden px-4 py-4 space-y-4">
-    <!-- Search Box (Mobile) -->
     <form action="{{ route('news.search') }}" method="GET" class="relative w-full">
         <input type="text" name="q" placeholder="Cari berita..."
             class="border border-slate-300 rounded-full px-4 py-2 pl-8 text-sm font-normal focus:outline-none focus:ring-primary focus:border-primary w-full"

@@ -15,7 +15,6 @@ Route::get('/featured-news', [NewsController::class, 'loadFeaturedNews'])->name(
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-// Untuk reset password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request');

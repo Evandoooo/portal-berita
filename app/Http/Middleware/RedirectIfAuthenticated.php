@@ -13,7 +13,7 @@ class RedirectIfAuthenticated
     {
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect('/'); // atau route admin jika user adalah admin
+                return redirect('/'); 
             }
         }
 
